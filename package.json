@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3500",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
-    "start": "next start",
+    "start": "next start -p 3500",
     "typecheck": "tsc --noEmit",
     "lint": "next lint && npm run lint:stylelint",
     "lint:stylelint": "stylelint '**/*.css' --cache",
@@ -19,13 +19,24 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
+    "@auth/firebase-adapter": "^2.5.0",
+    "@braintree/sanitize-url": "^7.1.0",
+    "@google-cloud/firestore": "^7.10.0",
+    "@hookform/resolvers": "^3.9.0",
     "@mantine/core": "7.12.2",
     "@mantine/hooks": "7.12.2",
+    "@mantinex/dev-icons": "^1.0.2",
     "@next/bundle-analyzer": "^14.2.4",
     "@tabler/icons-react": "^3.6.0",
+    "bloom-filter": "^0.2.0",
+    "firebase-admin": "^12.5.0",
     "next": "14.2.4",
+    "next-auth": "^5.0.0-beta.21",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-hook-form": "^7.53.0",
+    "redis": "^4.7.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
