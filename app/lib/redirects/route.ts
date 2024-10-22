@@ -26,13 +26,19 @@ export async function GET(request: NextRequest) {
     }
 
     const props = redirect && JSON.parse(redirect?.props)
-    const searchParams = new URLSearchParams(props)
+    const {passwords = null,labels = null,...rest} = props
+    const searchParams = new URLSearchParams(rest)
     const changedParamas = new URLSearchParams()
 
     searchParams.forEach((value, key) => {
       if(value && value !== 'null' && value !== 'NULL' && TAGS.includes(key)) 
         changedParamas.append(key, value)
     })
+
+    //special logic for passwords/ redirect to password page and send the hashed pass as props
+    if(passwords){
+      delete redirect.url 
+    }
 
     if(changedParamas && changedParamas.size > 0) redirect.path = `${redirect?.path}?${changedParamas.toString()}`
 

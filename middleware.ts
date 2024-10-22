@@ -16,18 +16,19 @@ export async function middleware(request: NextRequest) {
         if (redirectData.ok) {
             const obj = await redirectData.json();
             sendEventPlausible(`${request.nextUrl.origin}/${obj.path}`);
-            return NextResponse.redirect(obj?.url, 307);
+            if(obj?.url) return NextResponse.redirect(obj?.url, 307);
+            else return NextResponse.rewrite(new URL(`/${process.env.REDIRECT_URL_PASS}${request.nextUrl.pathname}`, request.url))
         }
         return NextResponse.next();
     } catch (error) {
         console.error(error);
         return NextResponse.next();
     }
-}
+} 
 
 // See "Matching Paths" below to learn more
 export const config = {
     matcher: [
-        '/((?!lib/|_|_next/static|_next/image|favicon.ico|favicon.png|favicon.svg|sitemap.xml|robots.txt).*)',
+        '/((?!lib/|_|_next/static|password__/|_next/image|favicon.ico|favicon.png|favicon.svg|sitemap.xml|robots.txt).*)',
     ],
 };
