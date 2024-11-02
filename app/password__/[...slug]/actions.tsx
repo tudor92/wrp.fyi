@@ -4,7 +4,7 @@ import { getConn } from "../../lib/redis"
 import { sanitizeUrlPath, hashedUrlPath } from "../../lib/utils"
 import { redirect } from 'next/navigation'
 
-export async function getLinkData(slug: string) {
+export async function getLinkData(slug: string, existsOnly = true) {
     const pathname = sanitizeUrlPath(slug);
     if (!pathname || pathname === '') {
         throw new Error('Invalid pathname');
@@ -18,7 +18,8 @@ export async function getLinkData(slug: string) {
         throw new Error('Link not found');
     }
 
-    return redirect;
+    if(existsOnly) return redirect?.valid;
+    else return redirect;
 }
 
 export async function checkPassword(formData: FormData) {
@@ -28,7 +29,7 @@ export async function checkPassword(formData: FormData) {
     let linkData;
 
     try {
-        linkData = await getLinkData(slug);
+        linkData = await getLinkData(slug, false);
         const linkProps = JSON.parse(linkData.props);
 
         if (linkProps.passwords && linkProps.passwords.length > 0) {
