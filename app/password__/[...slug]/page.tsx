@@ -1,8 +1,7 @@
-'use server'
-
-import { Button } from "../../../components/ui/button"
-import { Input } from "../../../components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { getLinkData, checkPassword } from "./actions"
+import { Loader } from "lucide-react"
 
 export default async function Page({
   params,
@@ -11,12 +10,12 @@ export default async function Page({
 }) {
   const slug = params.slug.join('/');
   let linkData;
+  let loading;
 
   try {
     linkData = await getLinkData(slug);
   } catch (error) {
     console.error('Error fetching link data:', error);
-    // Handle the error appropriately
   }
 
   return (

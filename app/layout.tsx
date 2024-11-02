@@ -1,6 +1,5 @@
 import React from 'react';
 import localFont from "next/font/local";
-import { cn } from "@/lib/utils";
 import "./globals.css";
 
 export const metadata = {
@@ -34,7 +33,7 @@ const geistMono = localFont({
 
 export default function RootLayout({ children }: { children: any }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <link rel="shortcut icon" href="/favicon.png" />
         <meta
