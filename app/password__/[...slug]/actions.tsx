@@ -40,5 +40,5 @@ export async function checkPassword(formData: FormData) {
         throw error
     }
 
-    redirect(linkData.url);
+    if (validPassword) redirect(linkData.url);
 }
