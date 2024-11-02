@@ -1,8 +1,7 @@
-import '@mantine/core/styles.css';
-
 import React from 'react';
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import { theme } from '../theme';
+import localFont from "next/font/local";
+import { cn } from "@/lib/utils";
+import "./globals.css";
 
 export const metadata = {
   title: 'Wraply - track, secure and monetize your links effortlessly',
@@ -22,19 +21,34 @@ export const metadata = {
   },
 };
 
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+});
+
 export default function RootLayout({ children }: { children: any }) {
   return (
-    <html lang="en" data-mantine-color-scheme="dark">
+    <html lang="en">
       <head>
-        <ColorSchemeScript defaultColorScheme='dark' />
         <link rel="shortcut icon" href="/favicon.png" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
         />
       </head>
-      <body>
-        <MantineProvider theme={theme} forceColorScheme='dark'>{children}</MantineProvider>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        // className={cn(
+        //   "min-h-screen bg-background font-sans antialiased",
+        // )}
+      >
+        {children}
       </body>
     </html>
   );

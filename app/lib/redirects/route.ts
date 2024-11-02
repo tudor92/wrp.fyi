@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     })
 
     //special logic for passwords/ redirect to password page and send the hashed pass as props
-    if(passwords){
+    if(passwords && passwords.length > 0){
       delete redirect.url 
     }
 

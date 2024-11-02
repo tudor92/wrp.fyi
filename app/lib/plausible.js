@@ -1,7 +1,9 @@
+'use server'
+
 import { fetchRequest } from "./fetch/fetchWrapper";
 import { headers } from 'next/headers'
 
-export function clientHeaders() {
+export async function clientHeaders() {
     const FALLBACK_IP_ADDRESS = '0.0.0.0'
     const forwardedFor = headers().get('x-forwarded-for')
     const userAgent = headers().get('user-agent')
