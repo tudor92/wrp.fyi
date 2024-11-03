@@ -30,7 +30,7 @@ export async function checkPassword(formData: FormData) {
 
     try {
         linkData = await getLinkData(slug, false);
-        const linkProps = JSON.parse(linkData.props);
+        const linkProps = JSON.parse(linkData?.props);
 
         if (linkProps.passwords && linkProps.passwords.length > 0) {
             validPassword = linkProps.passwords.some((p: { password: string }) => p.password === password);
