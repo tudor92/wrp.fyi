@@ -29,6 +29,9 @@ export default withBundleAnalyzer({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  experimental: {
+    serverActions: { allowedOrigins: ["wrp.fyi", "localhost:3500"], }
+},
   redirects: ()=>{
     return [
       {
