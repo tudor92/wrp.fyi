@@ -17,7 +17,10 @@ export async function middleware(request: NextRequest) {
             const obj = await redirectData.json();
 
             // Build proper URL for Plausible (ensure no double slashes)
-            const path = obj.path?.startsWith('/') ? obj.path : `/${obj.path}`;
+            // Use obj.path if available, otherwise fall back to the request pathname
+            const path = obj.path
+                ? (obj.path.startsWith('/') ? obj.path : `/${obj.path}`)
+                : request.nextUrl.pathname;
             const pageUrl = `${request.nextUrl.origin}${path}`;
 
             // Send analytics event (fire and forget for faster redirects)
