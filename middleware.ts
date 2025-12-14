@@ -8,15 +8,22 @@ export async function middleware(request: NextRequest) {
             return NextResponse.next();
         }
         const encodedUrl = encodeURIComponent(request.nextUrl.pathname)
-         const apiRedirectUrl = new URL(`/lib/redirects?pathname=${encodedUrl}`,
-             request.nextUrl.origin);
+        const apiRedirectUrl = new URL(`/lib/redirects?pathname=${encodedUrl}`,
+            request.nextUrl.origin);
         const apiRedirect = new NextRequest(apiRedirectUrl)
         apiRedirect.cookies.set('hashed-url', decodeURIComponent(encodedUrl).toLowerCase());
         const redirectData = await fetch(apiRedirect);
         if (redirectData.ok) {
             const obj = await redirectData.json();
-            sendEventPlausible(`${request.nextUrl.origin}/${obj.path}`);
-            if(obj?.url) return NextResponse.redirect(obj?.url, 307);
+
+            // Build proper URL for Plausible (ensure no double slashes)
+            const path = obj.path?.startsWith('/') ? obj.path : `/${obj.path}`;
+            const pageUrl = `${request.nextUrl.origin}${path}`;
+
+            // Send analytics event (fire and forget for faster redirects)
+            sendEventPlausible(pageUrl).catch(err => console.error('Analytics error:', err));
+
+            if (obj?.url) return NextResponse.redirect(obj?.url, 307);
             else return NextResponse.rewrite(new URL(`/${process.env.REDIRECT_URL_PASS}${request.nextUrl.pathname}`, request.url))
         }
         return NextResponse.next();
@@ -24,7 +31,7 @@ export async function middleware(request: NextRequest) {
         console.error(error);
         return NextResponse.next();
     }
-} 
+}
 
 // See "Matching Paths" below to learn more
 export const config = {
